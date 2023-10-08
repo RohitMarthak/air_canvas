@@ -18,8 +18,9 @@ class Board:
         cv2.imshow("canvas",display_canvas)
 
     def reset_board(self):
-            self.canvas = np.full((500, 500, 3),self.board_color, dtype="uint8")
-            self.display(self.currentPos)
+
+        self.canvas = np.full((500, 500, 3),self.board_color, dtype="uint8")
+        self.display(self.currentPos)
 
     def draw(self,prevPos, currentPos):
 
