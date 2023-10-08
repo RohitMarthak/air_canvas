@@ -6,7 +6,7 @@ import time
 class HandDetector():
     def __init__(self):
         self.mpHands = mp.solutions.hands
-        self.hands = self.mpHands.Hands(min_detection_confidence=0.7)
+        self.hands = self.mpHands.Hands(min_detection_confidence=0.7,max_num_hands=1)
         self.mpDraw = mp.solutions.drawing_utils
 
     def findHands(self, img, draw=True):
@@ -21,7 +21,7 @@ class HandDetector():
                                                self.mpHands.HAND_CONNECTIONS)
         return img
 
-    def findPosition(self, img,handNo=0, draw=True,ids = [4,8]):
+    def findPosition(self, img,handNo=0, draw=True,ids = [8,12]):
 
         lmDict = {}
 
@@ -43,7 +43,7 @@ class HandDetector():
 def main():
     pTime = 0
     cTime = 0
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     detector = HandDetector()
     while True:
         success, img = cap.read()

@@ -3,7 +3,7 @@ import cv2
 
 class Board:
 
-    def __init__(self,board_color=(255,255,255),draw_thickness = 4,draw_color=(0,0,0)):
+    def __init__(self,board_color=(255,255,255),draw_thickness = 6,draw_color=(0,0,0)):
 
         self.draw_thickness = draw_thickness
         self.cursor = np.zeros((500,500,3),dtype="uint8")
@@ -14,7 +14,7 @@ class Board:
 
         self.currentPos = currentPos
         display_canvas = self.canvas.copy()
-        cv2.circle(display_canvas, (self.canvas.shape[1] - currentPos[0], currentPos[1]), 5,(0,255,0))
+        cv2.circle(display_canvas, (self.canvas.shape[1] - currentPos[0], currentPos[1]), 4,(0,255,0))
         cv2.imshow("canvas",display_canvas)
 
     def reset_board(self):
