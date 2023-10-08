@@ -1,9 +1,9 @@
-import math
 import cv2
 import HandTrackingModule as htm
 import numpy as np
 from EuclideanDistance import euclidean_distance_2d
 import Board
+
 
 def main():
 
@@ -12,11 +12,16 @@ def main():
     cap = cv2.VideoCapture(0)
     handDetector = htm.HandDetector()
     prevPos = (-1, -1)
+    currentPos = (-1,-1)
+    erase = False
+    Draw = True
 
     while True:
+
         success, img = cap.read()
         img1 = handDetector.findHands(img)
         lmDict = handDetector.findPosition(img1, ids=[4, 8])
+
 
         # print(lmDict)
         if len(lmDict) != 0:
@@ -24,30 +29,41 @@ def main():
             lm8 = lmDict[8]
             lm4 = lmDict[4]
 
-            board.cursor_img = board.draw_cursor(lm8)
-
             if prevPos == (-1, -1):
                 prevPos = (lm8[0], lm8[1])
 
             print(lmDict)
+            currentPos = (lm8[0], lm8[1])
 
-            if euclidean_distance_2d(lm4, lm8) < 42:
+            if euclidean_distance_2d(lm4, lm8) < 20:
 
-                currentPos = (lm8[0], lm8[1])
-                board.draw(prevPos, currentPos)
+                if(erase == False):
+                    board.draw(prevPos, currentPos)
+
+                else:
+                    board.erase(currentPos)
                 prevPos = currentPos
 
             else:
                 prevPos = (lm8[0], lm8[1])
 
-            board.display()
 
+        board.display(currentPos)
         key = cv2.waitKey(1)
 
         if key == ord("r"):
             board.reset_board()
 
+        elif key == ord("d"):
+            draw = True
+            erase = False
+
         # cv2.imshow("frame",img1)
+        elif key == ord("e"):
+
+            draw = False
+            erase = True
+
         elif key == ord("q"):
             break
 
